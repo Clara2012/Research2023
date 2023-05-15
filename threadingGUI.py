@@ -14,7 +14,7 @@ root = Tk()
 # set geometry
 root.geometry("500x200")
 root.title("Recording GUI")
-root.iconbitmap(r"C:\Users\clevy\OneDrive - The University of Western Ontario\Documents\Research documents\python-recorder\camera_icon.ico")
+root.iconbitmap(r"C:\Users\clevy\OAK-D-Recordings\python-recorder-main\camera_icon.ico")
 
 # setting the number of columns
 root.columnconfigure(0, weight=1)
@@ -70,20 +70,20 @@ def save_video():
     os.system("cmd /c ffmpeg -framerate 25 -i color.h265 -c copy color.mp4")
 
     # variables to store files name + location before they are moved
-    old_name_color = r"C:\drive research documents\Research documents\Camera Data"
-    old_name_mono1 = r"C:\drive research documents\Research documents\Camera Data"
-    old_name_mono2 = r"C:\drive research documents\Research documents\Camera Data"
+    old_name_color = r"C:\Users\clevy\OAK-D-Recordings\python-recorder-main"
+    old_name_mono1 = r"C:\Users\clevy\OAK-D-Recordings\python-recorder-main"
+    old_name_mono2 = r"C:\Users\clevy\OAK-D-Recordings\python-recorder-main"
 
-    name_color =  now +"_color.mp4"
+    name_color =  now+"_color.mp4"
     name_mono1 = now + "_mono1.mp4"
     name_mono2 = now + "_mono2.mp4"
 
     file_name = entry.get()
 
     # variables to store files name + location destination
-    new_name_color = r"C:\Camera Recordings" + name_color + file_name
-    new_name_mono1 = r"C:\Camera Recordings" + name_mono1 + file_name
-    new_name_mono2 = r"C:\Camera Recordings" + name_mono2 + file_name
+    new_name_color = "C:\\Camera_Recordings\\" + name_color + file_name 
+    new_name_mono1 = "C:\\Camera_Recordings\\" + name_mono1 + file_name
+    new_name_mono2 = "C:\\Camera_Recordings\\" + name_mono2 + file_name
 
     # rename file + move it
     os.rename(old_name_color, new_name_color)
