@@ -109,7 +109,7 @@ def run():
             cmd = "py encoding.py"
             #process_label['text']= "Recording Started..."
             #start_btn['bg'] ="red"
-            #process = subprocess.Popen(args=cmd)
+            process = subprocess.Popen(args=cmd)
    
         timelapse = 0
         def roundUp(value, divisibleBy: float):
