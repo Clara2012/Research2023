@@ -1,7 +1,7 @@
 #from luxonis app data: https://github.com/luxonis/depthai/blob/main/apps/record/main.py
 #!/usr/bin/env python3
+# change version of delphai_sdk with terminal command: pip install depthai_sdk==1.2.3
 from enum import IntEnum
-
 import depthai as dai
 import contextlib
 import math
@@ -10,6 +10,11 @@ from pathlib import Path
 import signal
 import threading
 import os
+import subprocess
+from tkinter import *
+import datetime
+
+
 
 
 # DepthAI Record library
@@ -97,13 +102,14 @@ def run():
 
         for recording in devices:
             recording.start() # Start recording
+            
             if os.path.exists("color.h265"):
                 os.remove("color.h265")
             if os.path.exists("mono1.h264"):
                 os.remove("mono1.h264")
             if os.path.exists("mono2.h264"):
                 os.remove("mono2.h264")
-
+            
             # will run this command to open the encoding.py file
             global process
             cmd = "py encoding.py"
@@ -154,14 +160,36 @@ def run():
                 time.sleep(0.001) # 1ms, avoid lazy looping
             except KeyboardInterrupt:
                 break
-        os.system("cmd /c ffmpeg -framerate 25 -i mono1.h264 -c copy mono1.mp4")
-        os.system("cmd /c ffmpeg -framerate 25 -i mono2.h264 -c copy mono2.mp4")
-        os.system("cmd /c ffmpeg -framerate 25 -i color.h265 -c copy color.mp4")
-
+        
         print('') # For new line in terminal
         for recording in devices:
             recording.frame_q.put(None)
             recording.process.join()  # Terminate the process
+            
+        now = str(datetime.date.today())
+        
+        old_name_color = r"C:\Users\clevy\OAK-D-Recordings\recordings\color.mp4"
+        old_name_mono1 = r"C:\Users\clevy\OAK-D-Recordings\recordings\mono1.mp4"
+        old_name_mono2 = r"C:\Users\clevy\OAK-D-Recordings\recordings\mono2.mp4"
+
+        os.system("cmd /c ffmpeg -framerate 25 -i mono1.h264 -c copy mono1.mp4")
+        os.system("cmd /c ffmpeg -framerate 25 -i mono2.h264 -c copy mono2.mp4")
+        os.system("cmd /c ffmpeg -framerate 25 -i color.h265 -c copy color.mp4")
+
+        name_color =  now+"_color.mp4"
+        name_mono1 = now + "_mono1.mp4"
+        name_mono2 = now + "_mono2.mp4"
+
+        # variables to store files name + location destination
+        new_name_color = "C:\\Camera_Recordings\\" + name_color 
+        new_name_mono1 = "C:\\Camera_Recordings\\" + name_mono1 
+        new_name_mono2 = "C:\\Camera_Recordings\\" + name_mono2 
+
+        # rename file + move it
+        os.rename(old_name_color, new_name_color)
+        os.rename(old_name_mono1, new_name_mono1)
+        os.rename(old_name_mono2, new_name_mono2)
+
         print("All recordings have stopped successfuly. Exiting the app.")
 
 if __name__ == '__main__':
